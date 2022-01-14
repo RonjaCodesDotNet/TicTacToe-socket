@@ -31,8 +31,7 @@ io.on("connection", (socket) => {
 
   // ...
   socket.on("cell was clicked", (targetedCellsCellIndex) => {
-    console.log(targetedCellsCellIndex);
-    io.emit("turn change", targetedCellsCellIndex, whosTurnItIs);
+    io.emit("turn change", targetedCellsCellIndex, whosTurnItIs, socket.id);
 
     if (whosTurnItIs == 0) {
       whosTurnItIs = 1;

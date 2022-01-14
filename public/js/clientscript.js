@@ -2,6 +2,11 @@ window.onload = () => {
   const socket = io();
 
   const cellElements = document.querySelectorAll("td");
+  let usersSocketID;
+
+  socket.on("connect", () => {
+    usersSocketID = socket.id;
+  });
 
   document.getElementById("usernameForm").addEventListener("submit", (evt) => {
     evt.preventDefault();
@@ -50,22 +55,26 @@ window.onload = () => {
       "click",
       (cell) => {
         const targetCell = cell.target;
-        
-        console.log(targetCell);
-        console.log("Cell was clicked");
 
         socket.emit("cell was clicked", targetCell.cellIndex);
+
+        document.getElementById("gameBoard").classList.add("non-clickable");
       },
       { once: true }
     );
   });
 
-  socket.on("turn change", (targetedCellIndex, currentTurn) => {
+  socket.on("turn change", (targetedCellIndex, currentTurn, activeSocket) => {
     const thisCell = document.getElementsByTagName("td")[targetedCellIndex];
+
     if (currentTurn == 0) {
       thisCell.innerHTML = "X";
     } else if (currentTurn == 1) {
       thisCell.innerHTML = "O";
+    }
+
+    if (activeSocket != usersSocketID) {
+      document.getElementById("gameBoard").classList.remove("non-clickable");
     }
   });
 };
