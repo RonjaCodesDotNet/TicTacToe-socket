@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <title>Document</title>
+
+    <meta name="description" content="Fyll i något här" />
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/clientscript.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Multiplayer tic-tac-toe</h1>
+    </header>
+
+    <main>
+      <div id="formContent">
+        <form id="usernameForm">
+          <label for="inputUsername">Välj ett användarnamn:</label>
+          <input
+            type="text"
+            id="inputUsername"
+            autocomplete="off"
+            placeholder="Endast bokstäver tillåtna"
+            required
+          />
+          <label for="inputRoomID"
+            >Skapa nytt/ange existerande spelrums-ID:</label
+          >
+          <input type="text" id="inputRoomID" autocomplete="off" required />
+          <button type="submit">Skicka</button>
+        </form>
+      </div>
+
+      <div id="mainContent">
+        <h2>Spelrum: GameRoomID</h2>
+
+        <p>Anslutna spelare:</p>
+        <ul id="usersInRoom"></ul>
+
+        <table class="game-board" id="gameBoard">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+#mainContent {
+  display: none;
+}
+
+.board {
+  width: 70vw;
+  height: 70vh;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+td {
+  width: 10rem;
+  height: 10rem;
+  background-color: black;
+  color: white;
+  font-size: 8rem;
+  cursor: pointer;
+}
