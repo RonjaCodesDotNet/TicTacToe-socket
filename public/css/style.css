@@ -2,12 +2,11 @@
   display: none;
 }
 
-.board {
-  width: 70vw;
-  height: 70vh;
-  display: grid;
-  justify-content: center;
-  align-content: center;
+tr {
+  width: 31rem;
+  height: 30rem;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 td {
@@ -15,6 +14,7 @@ td {
   height: 10rem;
   background-color: black;
   color: white;
+  border: 0.1rem solid white;
   font-size: 8rem;
   cursor: pointer;
 }

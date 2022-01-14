@@ -2,9 +2,6 @@ window.onload = () => {
   const socket = io();
 
   const cellElements = document.querySelectorAll("td");
-  const playerX = "X";
-  const playerO = "O";
-  let playerXsTurn;
 
   document.getElementById("usernameForm").addEventListener("submit", (evt) => {
     evt.preventDefault();
@@ -49,20 +46,26 @@ window.onload = () => {
 
   // Ser till att klick-eventet endast avfyras en gång per cell så att varje ruta endast kan väljas en gång per spel.
   cellElements.forEach((cell) => {
-    cell.addEventListener("click", whenClicked, { once: true });
+    cell.addEventListener(
+      "click",
+      (cell) => {
+        const targetCell = cell.target;
+        
+        console.log(targetCell);
+        console.log("Cell was clicked");
+
+        socket.emit("cell was clicked", targetCell.cellIndex);
+      },
+      { once: true }
+    );
   });
 
-  socket.on("mark and turn change", () => {
-    cell.target.innerHTML = playerXsTurn ? playerX : playerO;
+  socket.on("turn change", (targetedCellIndex, currentTurn) => {
+    const thisCell = document.getElementsByTagName("td")[targetedCellIndex];
+    if (currentTurn == 0) {
+      thisCell.innerHTML = "X";
+    } else if (currentTurn == 1) {
+      thisCell.innerHTML = "O";
+    }
   });
-
-  function whenClicked(evt) {
-    const targetCell = evt.target;
-    // Ändra så att byte av "turns" sker på servern.
-    const currentPlayer = playerXsTurn ? playerX : playerO;
-
-    socket.emit("cell was clicked");
-
-    targetCell.innerHTML = currentPlayer;
-  }
 };

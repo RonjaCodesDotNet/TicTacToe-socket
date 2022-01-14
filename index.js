@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
 });
 
 let connectedUsers = new Array();
+let whosTurnItIs = 0;
 
 // Anropas när någon ansluter till servern.
 io.on("connection", (socket) => {
@@ -29,8 +30,15 @@ io.on("connection", (socket) => {
   });
 
   // ...
-  socket.on("cell was clicked", () => {
-    socket.broadcast.emit("mark and turn change");
+  socket.on("cell was clicked", (targetedCellsCellIndex) => {
+    console.log(targetedCellsCellIndex);
+    io.emit("turn change", targetedCellsCellIndex, whosTurnItIs);
+
+    if (whosTurnItIs == 0) {
+      whosTurnItIs = 1;
+    } else if (whosTurnItIs == 1) {
+      whosTurnItIs = 0;
+    }
   });
 
   // Anropas när någon kopplar ifrån servern.
