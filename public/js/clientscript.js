@@ -49,19 +49,14 @@ window.onload = () => {
     usersInRoom.innerHTML = connectedUsers;
   });
 
-  // Ser till att klick-eventet endast avfyras en gång per cell så att varje ruta endast kan väljas en gång per spel.
   cellElements.forEach((cell) => {
-    cell.addEventListener(
-      "click",
-      (cell) => {
-        const targetCell = cell.target;
+    cell.addEventListener("click", (cell) => {
+      const targetCell = cell.target;
 
-        socket.emit("cell was clicked", targetCell.cellIndex);
+      socket.emit("cell was clicked", targetCell.cellIndex);
 
-        document.getElementById("gameBoard").classList.add("non-clickable");
-      },
-      { once: true }
-    );
+      document.getElementById("gameBoard").classList.add("non-clickable");
+    });
   });
 
   socket.on("turn change", (targetedCellIndex, currentTurn, activeSocket) => {
@@ -72,6 +67,10 @@ window.onload = () => {
     } else if (currentTurn == 1) {
       thisCell.innerHTML = "O";
     }
+
+    thisCell.classList.add("non-clickable");
+
+    //if () {};
 
     if (activeSocket != usersSocketID) {
       document.getElementById("gameBoard").classList.remove("non-clickable");
