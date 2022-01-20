@@ -1,4 +1,6 @@
-#mainContent {
+#roomContent,
+#gameContent,
+#finishedContent {
   display: none;
 }
 

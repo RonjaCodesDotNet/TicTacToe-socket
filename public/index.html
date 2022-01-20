@@ -32,18 +32,20 @@
           <label for="inputRoomID"
             >Skapa nytt/ange existerande spelrums-ID:</label
           >
-          <input type="text" id="inputRoomID" autocomplete="off" required />
+          <input type="text" id="inputRoomID" autocomplete="off" disabled />
           <button type="submit">Skicka</button>
         </form>
       </div>
 
-      <div id="mainContent">
+      <div id="roomContent">
         <h2>Spelrum: GameRoomID</h2>
 
         <p>Anslutna spelare:</p>
         <ul id="usersInRoom"></ul>
+      </div>
 
-        <table class="game-board" id="gameBoard">
+      <div id="gameContent">
+        <table class="game-board non-clickable" id="gameBoard">
           <tr>
             <td></td>
             <td></td>
@@ -56,6 +58,11 @@
             <td></td>
           </tr>
         </table>
+      </div>
+
+      <div id="finishedContent">
+        <p id="finishedGameMessage"></p>
+        <button id="playAgainButton">Spela igen</button>
       </div>
     </main>
 
