@@ -1,7 +1,7 @@
 {
   "name": "tictactoe-game",
   "version": "1.0.0",
-  "description": "Tic-tac-toe game with chat function made with Express and sockets.",
+  "description": "Multiplayer tic-tac-toe game.",
   "main": "index.js",
   "dependencies": {
     "express": "^4.17.2",
@@ -14,12 +14,21 @@
     "start": "node index",
     "dev": "nodemon index"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RonjaCodesDotNet/TicTacToe-socket.git"
+  },
   "keywords": [
-    "node.js",
-    "express",
-    "sockets",
-    "javascript"
+    "game",
+    "JavaScript",
+    "Node.js",
+    "Express",
+    "Socket.io"
   ],
   "author": "Ronja Österback",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RonjaCodesDotNet/TicTacToe-socket/issues"
+  },
+  "homepage": "https://github.com/RonjaCodesDotNet/TicTacToe-socket#readme"
 }

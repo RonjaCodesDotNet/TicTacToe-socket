@@ -21,12 +21,8 @@ window.onload = () => {
     const usernameInput = document.getElementById("inputUsername").value;
 
     // Kontrollerar att användarnamnet endast innehåller bokstäver och är tillräckligt långt/kort.
-    if (
-      !/[^a-zA-ZåäöÅÄÖ]/.test(usernameInput) &&
-      usernameInput.length >= 2 &&
-      usernameInput.length <= 15
-    ) {
-      // Skickar att {användarnamn} har anslutit (om användarnamnet godkänns) till servern.
+    if (usernameTest(usernameInput)) {
+      // Skickar information till servern om att {användarnamn} har anslutit (om användarnamnet godkänns).
       socket.emit("new user connected", usernameInput);
 
       // Döljer formulär-div.
@@ -37,13 +33,9 @@ window.onload = () => {
       gameContent.style.display = "block";
 
       // Varnar användaren ifall användarnamnet innehåller otillåtna tecken eller är för långt/kort.
-    } else if (/[^a-zA-ZåäöÅÄÖ]/.test(usernameInput)) {
+    } else if (!usernameTest(usernameInput)) {
       alert(
-        "Användarnamnet får endast innehålla tecknena A-Ö. Vänligen försök igen."
-      );
-    } else if (usernameInput.length < 2 || usernameInput.length > 15) {
-      alert(
-        "Användarnamnet måste innehålla minst 2 och max 15 tecken. Vänligen försök igen."
+        "Användarnamnet får endast innehålla tecknena A-Ö samt måste vara minst 3 och max 15 tecken långt. Vänligen försök igen."
       );
     }
 
@@ -51,7 +43,7 @@ window.onload = () => {
     document.getElementById("inputUsername").value = "";
   });
 
-  // Tar emot array med alla anslutna användares användarnamn från servern.
+  // Tar emot array från servern med alla anslutna användares användarnamn.
   socket.on("connected to room", (everyoneHere, howManyAreHere) => {
     let connectedUsers = "";
 
@@ -62,8 +54,7 @@ window.onload = () => {
     // Postar arrayen i webbläsaren för alla användare.
     document.getElementById("usersInRoom").innerHTML = connectedUsers;
 
-    /* Gör spelet oklickbart om antalet spelare är fler eller färre än två.
-    ATT GÖRA: Ändra så att max två användare kan vara anslutna samtidigt, annars kan spelare X bli spelare O när en tredje användare kopplar ifrån. */
+    // Gör spelet oklickbart om antalet spelare är fler eller färre än två.
     if (howManyAreHere == 2) {
       gameBoard.classList.remove("non-clickable");
     } else if (howManyAreHere > 2) {
@@ -81,62 +72,90 @@ window.onload = () => {
       // Gör spelet oklickbart för samtliga spelare (tills servern har svarat, se socket.on("turn change") här nedan).
       gameBoard.classList.add("non-clickable");
 
-      // Skickar information om vilken cell som precis klickades till servern.
+      // Skickar information till servern om vilken cell som precis klickades.
       socket.emit("cell was clicked", targetCell.cellIndex);
     });
   });
 
-  // Tar emot från servern.
+  // Tar emot information från servern om vilken cell som har klickats, om X eller O ska placeras där, och vilken användare som klickade.
   socket.on("turn change", (targetedCellIndex, currentMark, activeSocket) => {
     const thisCell = document.getElementsByTagName("td")[targetedCellIndex];
 
+    // Placerar ett X eller O i den klickade cellen.
     thisCell.innerHTML = currentMark;
 
+    // Gör cellen oklickbar tills spelet ev. startas om.
     thisCell.classList.add("non-clickable");
 
+    // Gör spelet klickbart igen för spelaren som inte skickade senaste klick-eventet till servern.
     if (activeSocket != usersSocketID) {
       gameBoard.classList.remove("non-clickable");
     }
   });
 
-  // Tar emot från servern.
+  // Tar emot information från servern om att alla celler är klickade men ingen har vunnit.
   socket.on("itsADraw", () => {
+    // Informerar spelarna om resultatet.
     finishedGameMessage.innerText = "Spelet är oavgjort!";
 
+    // Gömmer spelet och visar rutan som ger möjlighet att starta om spelet.
     gameContent.style.display = "none";
     finishedContent.style.display = "block";
   });
 
-  // Tar emot från servern.
+  // Tar emot information från servern om att spelare X har vunnit.
   socket.on("PlayerXWon", (usernamePlayerX) => {
+    // Informerar spelarna om resultatet.
     finishedGameMessage.innerText = `${usernamePlayerX} är vinnaren!`;
 
+    // Döljer spelet och visar rutan som ger möjlighet att starta om spelet.
     gameContent.style.display = "none";
     finishedContent.style.display = "block";
   });
 
-  // Tar emot från servern.
+  // Tar emot information från servern om att spelare O har vunnit.
   socket.on("PlayerOWon", (usernamePlayerO) => {
+    // Informerar spelarna om resultatet.
     finishedGameMessage.innerText = `${usernamePlayerO} är vinnaren!`;
 
+    // Gömmer spelet och visar rutan som ger möjlighet att starta om spelet.
     gameContent.style.display = "none";
     finishedContent.style.display = "block";
   });
 
+  // Lyssnar efter en klick-händelse för "Spela igen"-knappen.
   playAgainButton.addEventListener("click", () => {
-    // Skickar till servern.
+    // Skickar information till servern om att spelet ska startas om.
     socket.emit("restart game request");
   });
 
-  // Tar emot från servern.
+  // Tar emot information från servern om att spelet har startats om (nollställts) på serversidan.
   socket.on("game restarted", () => {
+    // Nollställer spelet på klientsidan.
     cellElements.forEach((cell) => {
       cell.classList.remove("non-clickable");
       cell.innerHTML = "";
     });
+    gameBoard.classList.remove("non-clickable");
 
+    // Döljer rutan som ger möjlighet att starta om spelet och visar spelet.
     finishedGameMessage.innerText = "";
     finishedContent.style.display = "none";
     gameContent.style.display = "block";
   });
+
+  // Returnerar "true" eller "false" beroende på om användarnamnet uppfyller villkoren om tillåtna tecken och min-/maxlängd eller inte.
+  function usernameTest(userInput) {
+    if (
+      !/[^a-zA-ZåäöÅÄÖ]/.test(userInput) &&
+      userInput.length >= 3 &&
+      userInput.length <= 15
+    ) {
+      return true;
+    } else if (/[^a-zA-ZåäöÅÄÖ]/.test(userInput)) {
+      return false;
+    } else if (userInput.length < 3 || userInput.length > 15) {
+      return false;
+    }
+  }
 };
