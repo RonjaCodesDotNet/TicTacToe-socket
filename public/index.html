@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="sv">
   <head>
-    <title>Document</title>
+    <title>Multiplayer tic-tac-toe</title>
 
     <meta name="description" content="Fyll i något här" />
     <meta charset="UTF-8" />
@@ -13,40 +13,45 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/clientscript.js"></script>
   </head>
-  <body>
-    <header>
+  <body class="flex-box">
+    <header class="flex-box">
       <h1>Multiplayer tic-tac-toe</h1>
     </header>
 
-    <main>
+    <main class="flex-box">
       <div id="formContent">
-        <form id="usernameForm">
-          <label for="inputUsername">Välj ett användarnamn:</label>
-          <input
-            type="text"
-            id="inputUsername"
-            autocomplete="off"
-            placeholder="Endast bokstäver tillåtna"
-            required
-          />
-          <label for="inputRoomID"
-            >Skapa nytt/ange existerande spelrums-ID:</label
-          >
-          <input type="text" id="inputRoomID" autocomplete="off" disabled />
+        <form id="usernameForm" class="flex-box">
+          <div class="insideForm">
+            <label for="inputUsername">Välj ett användarnamn:</label>
+            <input
+              type="text"
+              id="inputUsername"
+              autocomplete="off"
+              placeholder="Endast bokstäver tillåtna"
+              required
+            />
+          </div>
+
+          <div class="insideForm">
+            <label for="inputRoomID"
+              >Skapa nytt/ange existerande spelrums-ID:</label
+            >
+            <input type="text" id="inputRoomID" autocomplete="off" disabled />
+          </div>
           <button type="submit">Skicka</button>
         </form>
       </div>
 
-      <div id="roomContent">
+      <div id="roomContent" class="startsAsHidden flex-box">
         <h2>Spelrum: GameRoomID</h2>
 
-        <p>Anslutna spelare:</p>
-        <ul id="usersInRoom"></ul>
+        <h3>Anslutna spelare:</h3>
+        <ul id="usersInRoom" class="flex-box"></ul>
       </div>
 
-      <div id="gameContent">
+      <div id="gameContent" class="startsAsHidden">
         <table class="game-board non-clickable" id="gameBoard">
-          <tr>
+          <tr class="flex-box">
             <td></td>
             <td></td>
             <td></td>
@@ -60,12 +65,17 @@
         </table>
       </div>
 
-      <div id="finishedContent">
+      <div id="finishedContent" class="startsAsHidden flex-box">
         <p id="finishedGameMessage"></p>
         <button id="playAgainButton">Spela igen</button>
       </div>
     </main>
 
-    <footer></footer>
+    <footer class="flex-box">
+      <p>
+        <a href="https://www.ronjacodes.net/" target="_blank">RonjaCodes.NET</a>
+        &copy; 2022
+      </p>
+    </footer>
   </body>
 </html>

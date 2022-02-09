@@ -1,26 +1,134 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: honeydew;
+  min-height: 100vh;
+  margin: auto;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 3.4rem;
+}
+
+h2 {
+  font-size: 2.8rem;
+}
+
+h3 {
+  font-size: 2.4rem;
+}
+
+.flex-box {
+  display: flex;
+}
+
+/* ----- Header specific content ----- */
+header {
+  background-color: black;
+  color: ghostwhite;
+  height: 6vh;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ----- Main specific content ----- */
+main {
+  font-size: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#formContent,
 #roomContent,
 #gameContent,
 #finishedContent {
+  margin: 2rem 0rem 2rem 0rem;
+}
+
+#roomContent,
+#finishedContent {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.startsAsHidden {
   display: none;
 }
 
+button {
+  margin: 0.5rem auto;
+  padding: 0.5rem 2rem;
+}
+
+/* Form specific content */
+#usernameForm {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.insideForm {
+  padding: 1rem;
+}
+
+/* Room specific content */
+#roomContent ul {
+  width: 25vw;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+/* Game specific content */
 tr {
-  width: 31rem;
-  height: 30rem;
-  display: flex;
+  width: 37rem;
+  height: 36rem;
   flex-wrap: wrap;
 }
 
 td {
-  width: 10rem;
-  height: 10rem;
+  font-size: 11rem;
+  width: 12rem;
+  height: 12rem;
   background-color: black;
   color: white;
   border: 0.1rem solid white;
-  font-size: 8rem;
   cursor: pointer;
+  position: relative;
 }
 
+td p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ----- Footer specific content ----- */
+footer {
+  font-size: 1.6rem;
+  background-color: black;
+  color: ghostwhite;
+  height: 3vh;
+  margin-top: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+footer a {
+  color: honeydew;
+}
+/* EJ FOOTER, FLYTTA */
 .non-clickable {
   pointer-events: none;
 }

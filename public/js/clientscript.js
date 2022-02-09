@@ -29,7 +29,7 @@ window.onload = () => {
       formContent.style.display = "none";
 
       // Visar rums-div och spel-div. Börjar som "display: none" i style.css-filen.
-      roomContent.style.display = "block";
+      roomContent.style.display = "flex";
       gameContent.style.display = "block";
 
       // Varnar användaren ifall användarnamnet innehåller otillåtna tecken eller är för långt/kort.
@@ -82,7 +82,7 @@ window.onload = () => {
     const thisCell = document.getElementsByTagName("td")[targetedCellIndex];
 
     // Placerar ett X eller O i den klickade cellen.
-    thisCell.innerHTML = currentMark;
+    thisCell.innerHTML = "<p>" + currentMark + "</p>";
 
     // Gör cellen oklickbar tills spelet ev. startas om.
     thisCell.classList.add("non-clickable");
@@ -98,9 +98,9 @@ window.onload = () => {
     // Informerar spelarna om resultatet.
     finishedGameMessage.innerText = "Spelet är oavgjort!";
 
-    // Gömmer spelet och visar rutan som ger möjlighet att starta om spelet.
+    // Döljer spelet och visar rutan som ger möjlighet att starta om spelet.
     gameContent.style.display = "none";
-    finishedContent.style.display = "block";
+    finishedContent.style.display = "flex";
   });
 
   // Tar emot information från servern om att spelare X har vunnit.
@@ -110,7 +110,7 @@ window.onload = () => {
 
     // Döljer spelet och visar rutan som ger möjlighet att starta om spelet.
     gameContent.style.display = "none";
-    finishedContent.style.display = "block";
+    finishedContent.style.display = "flex";
   });
 
   // Tar emot information från servern om att spelare O har vunnit.
@@ -118,9 +118,9 @@ window.onload = () => {
     // Informerar spelarna om resultatet.
     finishedGameMessage.innerText = `${usernamePlayerO} är vinnaren!`;
 
-    // Gömmer spelet och visar rutan som ger möjlighet att starta om spelet.
+    // Döljer spelet och visar rutan som ger möjlighet att starta om spelet.
     gameContent.style.display = "none";
-    finishedContent.style.display = "block";
+    finishedContent.style.display = "flex";
   });
 
   // Lyssnar efter en klick-händelse för "Spela igen"-knappen.
